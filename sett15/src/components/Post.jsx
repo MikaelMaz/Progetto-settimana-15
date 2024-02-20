@@ -3,9 +3,6 @@ import { url } from "../data/data.js";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/esm/Container.js";
 
 export default function MyPost() {
   const [posts, setPosts] = useState([]);
@@ -13,7 +10,7 @@ export default function MyPost() {
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
-    fetch(url + "posts")
+    fetch(url + "posts?_embed")
       .then((response) => response.json())
       .then((data) => setPosts(data));
   }, []);
@@ -49,27 +46,33 @@ export default function MyPost() {
             <Card
               key={post.id}
               className="col-lg-3 col-md-5 col-sm-12 mx-lg-1 mx-md-2 mx-sm-1 my-1"
-              style={{ minHeight: "22rem" }}
+              style={{ minHeight: "22rem", width: "25rem" }}
             >
-              <Card.Img variant="top" src={post.yoast_head_json.og_image[0].url} />
+              <Card.Img
+              variant="top"
+              src={post._embedded['wp:featuredmedia']['0'].source_url}
+              style={{ height: "15rem" }}
+              />
               <Card.Body>
-                <Card.Title>{post.title.rendered}</Card.Title>
-                <Card.Text>
-                  <span
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                  />
-                </Card.Text>
-                <Card.Text className="text-muted mb-5">
-                {post.date.slice(0, -9)}
-                </Card.Text>
-                <Button variant="primary position-absolute bottom-0 start-0">
-                  Scopri di più
+                <div style={{ height: "20rem" }}>
+                    <Card.Title>{post.title.rendered}</Card.Title>
+                    <Card.Text>
+                    <span
+                        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                    />
+                    </Card.Text>
+                    <Card.Text>
+                        {post.yoast_head_json.author} | {post.date.slice(0, -9)} 
+                    </Card.Text>
+                </div>
+                <Button variant="primary position-absolute bottom-0 my-2">
+                  Scopri di piu!
                 </Button>
               </Card.Body>
             </Card>
           ))
         ) : (
-          <p>Nessun risultato.</p>
+          <p>Nessun risultato trovato.</p>
         )}
         </div>
       </div>
