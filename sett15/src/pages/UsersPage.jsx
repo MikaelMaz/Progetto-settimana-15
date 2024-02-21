@@ -1,12 +1,13 @@
 import React from 'react'
-import DetailComp from '../components/DetailComp'
+import MyUsers from '../components/MyUsers'
 import Container from 'react-bootstrap/esm/Container'
 
-export default function DetailPage() {
+
+export default function UsersPage() {
   return (
     <>
         <Container className='mt-4'>
-            <DetailComp/>
+            <MyUsers/>
         </Container>
     </>
   )
